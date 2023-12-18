@@ -33,8 +33,6 @@ build/
 .vscode/
 
 *.properties
-*.iml
-target/
 dist/
 .idea/
  
