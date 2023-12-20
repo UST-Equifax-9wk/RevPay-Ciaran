@@ -71,6 +71,15 @@ public class User {
         this.receipts = receipts;
     }
 
+    public User(Integer userId, AccountType accountType, String username, String password, String email, String phoneNumber) {
+        this.userId = userId;
+        this.accountType = accountType;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Integer getUserId() {
         return userId;
     }
