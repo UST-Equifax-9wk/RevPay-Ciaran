@@ -19,7 +19,7 @@ public class Card {
     @JsonBackReference
     private User userId;
 
-    @Enumerated(EnumType.ORDINAL)
+    @Enumerated(EnumType.STRING)
     @Column(name = "card_type", nullable = false)
     private CardType cardType;
 
