@@ -117,7 +117,7 @@ public class Card {
     public String toString() {
         return "Card{" +
                 "cardId=" + cardId +
-                ", userId=" + userId +
+                ", userId=" + userId.getUserId() +
                 ", cardType=" + cardType +
                 ", cardNumber='" + cardNumber + '\'' +
                 ", expireDate='" + expireDate + '\'' +

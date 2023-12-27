@@ -42,12 +42,9 @@ public class CardService {
             if (cardLookup.isPresent()) {
                 throw new CardAlreadyExistsException("Card already exists for user!");
             }
-            return cardRepository.save(
-                    new Card(userLookup.get(),
-                            card.getCardType(),
-                            card.getCardNumber(),
-                            card.getExpireDate(),
-                            card.getSecurityCode()));
+            card.setUserId(userLookup.get());
+            // System.out.println(card);
+            return cardRepository.save(card);
         }
         throw new UserNotFoundException("No user with username [" + username + "] found!");
     }
