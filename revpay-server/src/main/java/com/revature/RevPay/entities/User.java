@@ -31,6 +31,9 @@ public class User {
     @Column(name = "phone_number", unique = true)
     private String phoneNumber;
 
+    @Column(name = "balance")
+    private Double balance = 0.00;
+
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
     @JsonManagedReference(value = "card_user")
     private Set<Card> cards;
@@ -86,6 +89,15 @@ public class User {
         this.password = password;
         this.email = email;
         this.phoneNumber = phoneNumber;
+    }
+
+    public User(AccountType accountType, String username, String password, String email, String phoneNumber, Double balance) {
+        this.accountType = accountType;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.balance = balance;
     }
 
     public Integer getUserId() {
@@ -144,17 +156,25 @@ public class User {
         this.cards = cards;
     }
 
+    public Double getBalance() {
+        return balance;
+    }
+
+    public void setBalance(Double balance) {
+        this.balance = balance;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(userId, user.userId) && accountType == user.accountType && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(phoneNumber, user.phoneNumber);
+        return Objects.equals(userId, user.userId) && accountType == user.accountType && Objects.equals(username, user.username) && Objects.equals(password, user.password) && Objects.equals(email, user.email) && Objects.equals(phoneNumber, user.phoneNumber) && Objects.equals(balance, user.balance);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(userId, accountType, username, password, email, phoneNumber);
+        return Objects.hash(userId, accountType, username, password, email, phoneNumber, balance);
     }
 
     @Override
@@ -166,6 +186,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", email='" + email + '\'' +
                 ", phoneNumber='" + phoneNumber + '\'' +
+                ", balance=" + balance +
                 '}';
     }
 }
