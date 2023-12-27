@@ -1,5 +1,11 @@
 package com.revature.RevPay.entities;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public enum AccountType {
-    PERSONAL, BUSINESS
+    @JsonProperty("personal")
+    PERSONAL,
+
+    @JsonProperty("business")
+    BUSINESS
 }
