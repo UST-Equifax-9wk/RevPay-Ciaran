@@ -30,7 +30,8 @@ public class UserService {
     public User registerUser(User user) throws UserAlreadyExistsException {
         Optional<User> lookupUsername = userRepository.findByUsername(user.getUsername());
         Optional<User> lookupEmail = userRepository.findByEmail(user.getEmail());
-        if (lookupUsername.isPresent() || lookupEmail.isPresent()) {
+        Optional<User> lookupPhoneNumber = userRepository.findByPhoneNumber(user.getPhoneNumber());
+        if (lookupUsername.isPresent() || lookupEmail.isPresent() || lookupPhoneNumber.isPresent()) {
             throw new UserAlreadyExistsException("User with credentials already exists");
         }
         return userRepository.save(user);
