@@ -32,17 +32,17 @@ public class User {
     private String phoneNumber;
 
     @OneToMany(mappedBy = "userId", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "card_user")
     private Set<Card> cards;
 
     // transactions where the user sent money to another account
     @OneToMany(mappedBy = "userIdFrom", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "user_sending")
     private Set<Transaction> payments;
 
     // transactions where the user received money from another account
     @OneToMany(mappedBy = "userIdTo", cascade = CascadeType.ALL)
-    @JsonManagedReference
+    @JsonManagedReference(value = "user_receiving")
     private Set<Transaction> receipts;
 
     public User() {

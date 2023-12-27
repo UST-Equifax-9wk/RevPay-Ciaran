@@ -16,7 +16,7 @@ public class Card {
 
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "card_user")
     private User userId;
 
     @Enumerated(EnumType.STRING)

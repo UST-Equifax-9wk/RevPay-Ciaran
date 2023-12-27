@@ -16,12 +16,12 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "user_id_to", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "user_receiving")
     private User userIdTo;
 
     @ManyToOne
     @JoinColumn(name = "user_id_from", nullable = false)
-    @JsonBackReference
+    @JsonBackReference(value = "user_sending")
     private User userIdFrom;
 
     @Column(name = "timestamp", nullable = false)
