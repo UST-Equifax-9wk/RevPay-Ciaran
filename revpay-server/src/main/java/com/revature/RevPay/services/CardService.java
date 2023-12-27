@@ -1,10 +1,17 @@
 package com.revature.RevPay.services;
 
+import com.revature.RevPay.entities.Card;
+import com.revature.RevPay.entities.User;
+import com.revature.RevPay.exceptions.CardAlreadyExistsException;
+import com.revature.RevPay.exceptions.UserNotFoundException;
 import com.revature.RevPay.repositories.CardRepository;
 import com.revature.RevPay.repositories.UserRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+import java.util.Set;
 
 @Service
 @Transactional(Transactional.TxType.REQUIRED)
@@ -19,4 +26,29 @@ public class CardService {
         this.cardRepository = cardRepository;
     }
 
+    public Set<Card> findCardsByUsername(String username) throws UserNotFoundException {
+        Optional<User> userLookup = userRepository.findByUsername(username);
+        if (userLookup.isPresent()) {
+            return cardRepository.findAllByUserId(userLookup.get().getUserId());
+        }
+        throw new UserNotFoundException("No user with username [" + username + "] found!");
+    }
+
+    public Card registerCard (String username, Card card) {
+        Optional<User> userLookup = userRepository.findByUsername(username);
+        if (userLookup.isPresent()) {
+            Optional<Card> cardLookup =
+                    cardRepository.findByCardNumberAndUserId(userLookup.get().getUserId(), card.getCardNumber());
+            if (cardLookup.isPresent()) {
+                throw new CardAlreadyExistsException("Card already exists for user!");
+            }
+            return cardRepository.save(
+                    new Card(userLookup.get(),
+                            card.getCardType(),
+                            card.getCardNumber(),
+                            card.getExpireDate(),
+                            card.getSecurityCode()));
+        }
+        throw new UserNotFoundException("No user with username [" + username + "] found!");
+    }
 }

@@ -32,7 +32,7 @@ public class UserService {
         Optional<User> lookupEmail = userRepository.findByEmail(user.getEmail());
         Optional<User> lookupPhoneNumber = userRepository.findByPhoneNumber(user.getPhoneNumber());
         if (lookupUsername.isPresent() || lookupEmail.isPresent() || lookupPhoneNumber.isPresent()) {
-            throw new UserAlreadyExistsException("User with credentials already exists");
+            throw new UserAlreadyExistsException("User with credentials already exists!");
         }
         return userRepository.save(user);
     }
@@ -41,7 +41,7 @@ public class UserService {
         if (out.isPresent()) {
             return out.get();
         }
-        throw new UserNotFoundException("No user with username [" + username + "] found");
+        throw new UserNotFoundException("No user with username [" + username + "] found!");
     }
 
 }
