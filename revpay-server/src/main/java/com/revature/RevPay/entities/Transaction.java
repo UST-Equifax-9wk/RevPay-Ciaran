@@ -48,6 +48,12 @@ public class Transaction {
         this.amount = amount;
     }
 
+    public Transaction(User userIdTo, String timestamp, Double amount) {
+        this.userIdTo = userIdTo;
+        this.timestamp = timestamp;
+        this.amount = amount;
+    }
+
     public Integer getTransactionId() {
         return transactionId;
     }
