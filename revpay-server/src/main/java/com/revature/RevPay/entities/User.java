@@ -80,6 +80,14 @@ public class User {
         this.phoneNumber = phoneNumber;
     }
 
+    public User(AccountType accountType, String username, String password, String email, String phoneNumber) {
+        this.accountType = accountType;
+        this.username = username;
+        this.password = password;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+    }
+
     public Integer getUserId() {
         return userId;
     }
