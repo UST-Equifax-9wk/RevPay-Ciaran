@@ -25,7 +25,7 @@ public class UserController {
         return userService.findByUsername(username);
     }
 
-    @CrossOrigin
+    @CrossOrigin(origins = {"http://localhost:4200"})
     @PostMapping(path = "/user")
     @ResponseStatus(HttpStatus.OK)
     public User registerUser(@RequestBody User user) {
