@@ -1,1 +1,9 @@
-<p>login-form works!</p>
+<h1>Log-in for RevPay!</h1>
+
+<label>Username: </label>
+<input type="text" id="identifier" [(ngModel)]="identifier">
+<br>
+<label>Password: </label>
+<input type="password" id="password" [(ngModel)]="password">
+<br>
+<button (click)="login()" *ngIf="identifier != '' && password != ''">Log in!</button>

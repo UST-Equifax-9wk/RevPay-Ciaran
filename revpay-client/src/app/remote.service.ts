@@ -31,6 +31,15 @@ export class RemoteService {
       'Content-Type': 'application/json'
     })});
   }
+
+  login(loginDto: LoginDto): Observable<HttpResponse<Object>> {
+    return this.httpClient.post(this.url + `/login`, JSON.stringify(loginDto),
+    {
+      observe: 'response', 
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })});
+  }
 }
 
 export interface User {
@@ -39,4 +48,10 @@ export interface User {
   password: string;
   email: string;
   phoneNumber: string;
+}
+
+// want to be able to log in with either username or email
+export interface LoginDto {
+  identifier: string;
+  password: string;
 }

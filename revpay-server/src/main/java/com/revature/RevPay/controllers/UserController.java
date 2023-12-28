@@ -1,6 +1,8 @@
 package com.revature.RevPay.controllers;
 
+import com.revature.RevPay.dtos.LoginDto;
 import com.revature.RevPay.entities.User;
+import com.revature.RevPay.exceptions.AccessDeniedException;
 import com.revature.RevPay.exceptions.UserAlreadyExistsException;
 import com.revature.RevPay.exceptions.UserNotFoundException;
 import com.revature.RevPay.services.UserService;
@@ -32,6 +34,17 @@ public class UserController {
         return userService.registerUser(user);
     }
 
+    @CrossOrigin(origins = {"http://localhost:4200"})
+    @PostMapping(path = "/login")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public boolean login(@RequestBody LoginDto loginDto) {
+        boolean login = userService.login(loginDto);
+        if (login) {
+            return true;
+        }
+        throw new AccessDeniedException("Credentials do not match!");
+    }
+
     @ExceptionHandler(UserNotFoundException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<String> internalErrorHandler(UserNotFoundException e) {
@@ -41,6 +54,12 @@ public class UserController {
     @ExceptionHandler(UserAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResponseEntity<String> internalErrorHandler(UserAlreadyExistsException e) {
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    public ResponseEntity<String> internalErrorHandler(AccessDeniedException e) {
         return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
