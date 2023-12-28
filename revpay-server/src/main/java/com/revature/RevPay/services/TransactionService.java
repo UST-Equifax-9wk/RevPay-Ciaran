@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 @Service
@@ -49,11 +50,13 @@ public class TransactionService {
                 realUser = phoneLookup.get();
             }
             if (realUser != null) {
+                userRepository.updateBalance(realUser.getUserId(), transDto.getBalance());
+                userRepository.updateBalance(userLookup.get().getUserId(), transDto.getBalance() * -1);
                 return transactionRepository.save(
                         new Transaction(
                                 realUser,
                                 userLookup.get(),
-                                (new Timestamp(System.currentTimeMillis())).toString(),
+                                LocalDateTime.now(),
                                 transDto.getBalance()));
             } else {
                 throw new UserNotFoundException("Recipient is not a valid user!");

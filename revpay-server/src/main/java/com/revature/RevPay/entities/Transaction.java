@@ -2,7 +2,9 @@ package com.revature.RevPay.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import org.springframework.cglib.core.Local;
 
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 @Entity
@@ -24,8 +26,8 @@ public class Transaction {
     @JsonBackReference(value = "user_sending")
     private User userIdFrom;
 
-    @Column(name = "timestamp", nullable = false)
-    private String timestamp;
+    @Column(name = "timestamp", columnDefinition = "TIMESTAMP", nullable = false)
+    private LocalDateTime timestamp;
 
     @Column(name = "amount")
     private Double amount;
@@ -33,7 +35,7 @@ public class Transaction {
     public Transaction() {
     }
 
-    public Transaction(Integer transactionId, User userIdTo, User userIdFrom, String timestamp, Double amount) {
+    public Transaction(Integer transactionId, User userIdTo, User userIdFrom, LocalDateTime timestamp, Double amount) {
         this.transactionId = transactionId;
         this.userIdTo = userIdTo;
         this.userIdFrom = userIdFrom;
@@ -41,14 +43,14 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public Transaction(User userIdTo, User userIdFrom, String timestamp, Double amount) {
+    public Transaction(User userIdTo, User userIdFrom, LocalDateTime timestamp, Double amount) {
         this.userIdTo = userIdTo;
         this.userIdFrom = userIdFrom;
         this.timestamp = timestamp;
         this.amount = amount;
     }
 
-    public Transaction(User userIdTo, String timestamp, Double amount) {
+    public Transaction(User userIdTo, LocalDateTime timestamp, Double amount) {
         this.userIdTo = userIdTo;
         this.timestamp = timestamp;
         this.amount = amount;
@@ -78,11 +80,11 @@ public class Transaction {
         this.userIdFrom = userIdFrom;
     }
 
-    public String getTimestamp() {
+    public LocalDateTime getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(String timestamp) {
+    public void setTimestamp(LocalDateTime timestamp) {
         this.timestamp = timestamp;
     }
 
