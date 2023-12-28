@@ -59,8 +59,6 @@ public class UserService {
         } else if (phoneLookup.isPresent()) {
             associatedPass = phoneLookup.get().getPassword();
         }
-        System.out.println("Lookup: " + associatedPass);
-        System.out.println("Inputted Pass: " + loginDto.getPassword());
         return associatedPass.equals(loginDto.getPassword());
     }
     

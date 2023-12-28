@@ -40,6 +40,7 @@ public class UserController {
     public boolean login(@RequestBody LoginDto loginDto) {
         boolean login = userService.login(loginDto);
         if (login) {
+            // establish cookie or something
             return true;
         }
         throw new AccessDeniedException("Credentials do not match!");
