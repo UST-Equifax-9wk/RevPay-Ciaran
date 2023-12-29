@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(Transactional.TxType.REQUIRED)
@@ -31,7 +32,7 @@ public class CardService {
         if (userLookup.isPresent()) {
             return cardRepository.findAllByUserId(userLookup.get().getUserId());
         }
-        throw new UserNotFoundException("No user with username [" + username + "] found!");
+        throw new UserNotFoundException("No user found!");
     }
 
     public Card registerCard (String username, Card card) {
@@ -43,9 +44,8 @@ public class CardService {
                 throw new CardAlreadyExistsException("Card already exists for user!");
             }
             card.setUserId(userLookup.get());
-            // System.out.println(card);
             return cardRepository.save(card);
         }
-        throw new UserNotFoundException("No user with username [" + username + "] found!");
+        throw new UserNotFoundException("No user found!");
     }
 }

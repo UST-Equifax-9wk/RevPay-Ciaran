@@ -1,6 +1,8 @@
 package com.revature.RevPay.entities;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 
 import java.util.Objects;
@@ -92,10 +94,12 @@ public class Card {
         this.expireDate = expireDate;
     }
 
+    @JsonIgnore
     public String getSecurityCode() {
         return securityCode;
     }
 
+    @JsonProperty
     public void setSecurityCode(String securityCode) {
         this.securityCode = securityCode;
     }
