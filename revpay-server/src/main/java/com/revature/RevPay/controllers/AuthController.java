@@ -40,7 +40,7 @@ public class AuthController {
         if (authService.login(loginDto)) {
             try {
                 User userLookup = userService.findByIdentifier(loginDto.getIdentifier());
-                Cookie cookie = new Cookie("username", userLookup.getUsername());
+                Cookie cookie = new Cookie("value", authService.hash(userLookup.getUsername()));
                 cookie.setMaxAge(60 * 60 * 24 * 7); // one week
                 cookie.setPath("/");
                 httpResponse.addCookie(cookie);
@@ -52,16 +52,17 @@ public class AuthController {
         throw new AccessDeniedException("Credentials do not match!");
     }
 
-    @GetMapping(path = "/cookie-test")
+    @GetMapping(path = "/cookie-test/{username}")
     @ResponseStatus(HttpStatus.OK)
-    public User testCookie(@CookieValue(name = "username") String username) { //get cookie from request
-        return userService.findByUsername(username);
+    public User testCookie(@PathVariable(name = "username") String username,
+                           @CookieValue(name = "value") String cookieValue) { //get cookie from request
+        return authService.authenticate(username, cookieValue);
     }
 
     @ExceptionHandler(UserNotFoundException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public ResponseEntity<String> internalErrorHandler(UserNotFoundException e) {
-        return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(UserAlreadyExistsException.class)

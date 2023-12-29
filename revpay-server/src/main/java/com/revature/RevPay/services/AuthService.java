@@ -2,8 +2,11 @@ package com.revature.RevPay.services;
 
 import com.revature.RevPay.dtos.LoginDto;
 import com.revature.RevPay.entities.User;
+import com.revature.RevPay.exceptions.AccessDeniedException;
 import com.revature.RevPay.exceptions.UserAlreadyExistsException;
+import com.revature.RevPay.exceptions.UserNotFoundException;
 import com.revature.RevPay.repositories.UserRepository;
+import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +15,7 @@ import java.util.Optional;
 @Service
 public class AuthService {
 
+    private static final int saltSize = 12;
     // use UserRepository info in place of AuthRepository
     private final UserRepository userRepository;
 
@@ -30,7 +34,7 @@ public class AuthService {
         return userRepository.save(user);
     }
 
-    public boolean login(LoginDto loginDto) {
+    public boolean login(LoginDto loginDto) { // checks if provided pass equals pass associated with user
         // very niche issue where the same string exists for two separate users as two of the below types
         Optional<User> usernameLookup = userRepository.findByUsername(loginDto.getIdentifier());
         Optional<User> emailLookup = userRepository.findByEmail(loginDto.getIdentifier());
@@ -46,4 +50,27 @@ public class AuthService {
         return associatedPass.equals(loginDto.getPassword());
     }
 
+    // cross-references the stored cookie with the hash of the username of the user whose page is
+    // attempting to be accessed
+    public User authenticate(String username, String hash) {
+        if (checkHash(username, hash)) {
+            Optional<User> usernameLookup = userRepository.findByUsername(username);
+            if (usernameLookup.isPresent()) {
+                return usernameLookup.get();
+            }
+            throw new UserNotFoundException("User doesn't exist!");
+        }
+        throw new AccessDeniedException("Invalid cookie!");
+    }
+
+    public String hash(String text) {
+        String salt = BCrypt.gensalt(saltSize);
+        return BCrypt.hashpw(text, salt);
+    }
+
+    // want to cross-reference the stored cookie with the hash of the username of the user whose
+    // page is attempting to be accessed
+    public boolean checkHash(String text, String hash) {
+        return BCrypt.checkpw(text, hash);
+    }
 }
