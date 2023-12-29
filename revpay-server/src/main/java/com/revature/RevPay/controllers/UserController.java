@@ -25,7 +25,11 @@ public class UserController {
     @GetMapping(path = "/user/{username}")
     @ResponseStatus(HttpStatus.OK)
     public User findByUsername(@PathVariable String username) {
-        return userService.findByUsername(username);
+        try {
+            return userService.findByUsername(username);
+        } catch (UserNotFoundException e) {
+            throw new AccessDeniedException("Credentials do not match!");
+        }
     }
 
     @ExceptionHandler(UserNotFoundException.class)
