@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class AuthController {
 
+    private static final int cookieAge = 60 * 60 * 24 * 7;
+
     private final UserService userService;
     private final AuthService authService;
 
@@ -41,9 +43,13 @@ public class AuthController {
             try {
                 User userLookup = userService.findByIdentifier(loginDto.getIdentifier());
                 Cookie authCookie = new Cookie("value", authService.hash(userLookup.getUsername()));
-                authCookie.setMaxAge(60 * 60 * 24 * 7); // one week
+                authCookie.setMaxAge(cookieAge); // one week
                 authCookie.setPath("/");
                 httpResponse.addCookie(authCookie);
+                Cookie currentUserCookie = new Cookie("currentUser", userLookup.getUsername());
+                currentUserCookie.setMaxAge(cookieAge);
+                currentUserCookie.setPath("/");
+                httpResponse.addCookie(currentUserCookie);
                 return userLookup;
             } catch (UserNotFoundException e) {
                 throw new AccessDeniedException("Credentials do not match!");

@@ -1,3 +1,25 @@
 <p>home-page works!</p>
 
+<h1>Hello, {{username}}!</h1>
+<h2>Account type: {{accountType | uppercase}}</h2>
+<h2>Balance: {{balance | number: '1.2-2'}}</h2>
+Email: {{email}} <br>
+Phone: {{phoneNumber}} <br>
 
+<h3>Cards: &emsp;<button (click)="addCardPage()">Add card</button></h3>
+<ul>
+    <li *ngFor="let card of cards">
+        <p>Card Type: {{card.cardType | titlecase}} <br>
+        Number: {{card.cardNumber}} <br>
+        Expiration Date: {{card.expireDate}}</p>
+
+    </li>
+</ul>
+
+<h3>Transaction History: </h3>
+<ul>
+    <li *ngFor="let trans of transactions">
+        <p>{{trans.timestamp}} <br>
+        {{trans.prefix}} ${{trans.amount | number: '1.2-2'}} {{trans.suffix}}</p>
+    </li>
+</ul>
