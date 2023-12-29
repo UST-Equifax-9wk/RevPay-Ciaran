@@ -36,37 +36,56 @@ export class HomePageComponent {
     let cookies = document.cookie;
     let currentUser = this.getCookieValue("username", cookies);
     this.remoteService.getUserInfo(currentUser)
-    .subscribe({
-      next: (data) => {
-        let userInfo = JSON.parse(JSON.stringify(data.body ? data.body : {})); // just to deal with the type checking
-        console.log(userInfo);
-        this.accountType = userInfo.accountType;
-        this.username = userInfo.username;
-        this.email = userInfo.email;
-        this.phoneNumber = userInfo.phoneNumber;
-        this.balance = userInfo.balance;
-        userInfo.cards.forEach((card: object) => {
-          this.cards.push(JSON.parse(JSON.stringify(card)))
-        });
-        userInfo.payments.forEach((trans: object) => {
-          let out = JSON.parse(JSON.stringify(trans));
-          out.prefix = "Sent";
-          out.suffix = "to " + out.username;
-          this.transactions.push(out);
-        });
-        userInfo.receipts.forEach((trans: object) => {
-          let out = JSON.parse(JSON.stringify(trans));
-          out.prefix = 'Received';
-          out.suffix = 'from ' + out.username;
-          this.transactions.push(out);
-        });
-        this.transactions.sort((a, b) => a.timestamp < b.timestamp ? 1 : (a.timestamp > b.timestamp ? -1 : 0));
-      },
-      error: (error: HttpErrorResponse) => {
-        alert("Couldn't verify login information!")
-        console.log(error.error)
-      }
+      .subscribe({
+        next: (data) => {
+          let userInfo = JSON.parse(JSON.stringify(data.body ? data.body : {})); // just to deal with the type checking
+          console.log(userInfo);
+          this.accountType = userInfo.accountType;
+          this.username = userInfo.username;
+          this.email = userInfo.email;
+          this.phoneNumber = userInfo.phoneNumber;
+          this.balance = userInfo.balance;
+          userInfo.cards.forEach((card: object) => {
+            this.cards.push(JSON.parse(JSON.stringify(card)))
+          });
+          /*
+          userInfo.payments.forEach((trans: object) => {
+            let out = JSON.parse(JSON.stringify(trans));
+            out.prefix = "Sent";
+            out.suffix = "to " + out.username;
+            this.transactions.push(out);
+          });
+          userInfo.receipts.forEach((trans: object) => {
+            let out = JSON.parse(JSON.stringify(trans));
+            out.prefix = 'Received';
+            out.suffix = 'from ' + out.username;
+            this.transactions.push(out);
+          });
+          this.transactions.sort((a, b) => a.timestamp < b.timestamp ? 1 : (a.timestamp > b.timestamp ? -1 : 0)); */
+        },
+        error: (error: HttpErrorResponse) => {
+          alert("Couldn't verify login information!")
+          console.log(error.error)
+        }
     });
+    this.remoteService.getUserTransHistory(currentUser)
+      .subscribe({
+        next: (data) => {
+          // should have a bunch of TransHistoryDtos which conform nicely to Transactions defined in TS
+          let transHistory = JSON.parse(JSON.stringify(data.body ? data.body : {}));
+          transHistory.forEach((trans: object) => {
+            let out: Transaction = JSON.parse(JSON.stringify(trans));
+            out.prefix = out.amount < 0 ? 'Sent' : 'Received';
+            out.suffix = out.amount < 0 ? "to " + out.username : 'from ' + out.username;
+            out.amount = Math.abs(out.amount);
+            this.transactions.push(out);
+          })
+          this.transactions.sort((a, b) => a.timestamp < b.timestamp ? 1 : (a.timestamp > b.timestamp ? -1 : 0));
+        },
+        error: (error: HttpErrorResponse) => {
+          console.log(error.error)
+        }
+      })
   }
 
   getCookieValue(key: string, cookie_list: string): string {

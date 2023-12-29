@@ -63,9 +63,16 @@ export class RemoteService {
   }
 
   getUserInfo(username: string) : Observable<HttpResponse<Object>> {
-    
-
     return this.httpClient.get(this.url + `/user/${username}`, {
+      observe: 'response', 
+      withCredentials: true,
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })});
+  }
+
+  getUserTransHistory(username: string) : Observable<HttpResponse<Object>> {
+    return this.httpClient.get(this.url + `/transaction/${username}`, {
       observe: 'response', 
       withCredentials: true,
       headers: new HttpHeaders({

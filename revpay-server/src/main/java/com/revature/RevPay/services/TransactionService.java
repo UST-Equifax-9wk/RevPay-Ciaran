@@ -1,6 +1,7 @@
 package com.revature.RevPay.services;
 
 import com.revature.RevPay.dtos.TransDto;
+import com.revature.RevPay.dtos.TransHistoryDto;
 import com.revature.RevPay.entities.Transaction;
 import com.revature.RevPay.entities.User;
 import com.revature.RevPay.exceptions.InsufficientBalanceException;
@@ -13,7 +14,10 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(Transactional.TxType.REQUIRED)
@@ -63,5 +67,38 @@ public class TransactionService {
             }
         }
         throw new UserNotFoundException("Sender is not a valid user!");
+    }
+
+    public Set<TransHistoryDto> getTransactionHistory(String username) {
+        Optional<User> userLookup = userRepository.findByUsername(username);
+        // check if user exists
+        if (userLookup.isPresent()) {
+            return getTransactionHistory(userLookup.get().getUserId());
+        }
+        throw new UserNotFoundException("User not found!");
+    }
+
+    public Set<TransHistoryDto> getTransactionHistory(Integer userId) {
+        Optional<User> userLookup = userRepository.findById(userId);
+        // check if user exists
+        if (userLookup.isPresent()) {
+            Set<Transaction> transactions = transactionRepository.findAllTransactionsWithUser(userId);
+            return transactions.stream().map(
+                trans -> {
+                    try {
+                        return new TransHistoryDto(
+                            trans.getTimestamp(),
+                            userId.equals(trans.getUserIdTo().getUserId()) ?
+                                userRepository.findById(trans.getUserIdFrom().getUserId()).get().getUsername() :
+                                userRepository.findById(trans.getUserIdTo().getUserId()).get().getUsername(),
+                            userId.equals(trans.getUserIdTo().getUserId()) ?
+                                trans.getAmount() :
+                                trans.getAmount() * -1);
+                    } catch (NoSuchElementException e) {
+                        throw new UserNotFoundException("Invalid User ID in database!");
+                    }
+                }).collect(Collectors.toSet());
+        }
+        throw new UserNotFoundException("User not found!");
     }
 }

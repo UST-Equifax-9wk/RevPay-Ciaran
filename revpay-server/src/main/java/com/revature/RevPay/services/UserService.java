@@ -34,7 +34,7 @@ public class UserService {
         if (userLookup.isPresent()) {
             return userLookup.get();
         }
-        throw new UserNotFoundException("No user found!");
+        throw new UserNotFoundException("User not found!");
     }
 
     public User findByIdentifier(String identifier) throws UserNotFoundException {

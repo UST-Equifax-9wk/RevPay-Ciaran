@@ -20,6 +20,6 @@ Phone: {{phoneNumber}} <br>
 <ul>
     <li *ngFor="let trans of transactions">
         <p>{{trans.timestamp}} <br>
-        {{trans.prefix}} ${{trans.amount | number: '1.2-2'}} {{trans.suffix}}</p>
+        {{trans.prefix}} <b>${{trans.amount | number: '1.2-2'}}</b> {{trans.suffix}}</p>
     </li>
 </ul>
