@@ -27,6 +27,7 @@ export class RemoteService {
     return this.httpClient.post(this.url + "/user", JSON.stringify(newUser), 
     {
       observe: 'response', 
+      withCredentials: true,
       headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })});
@@ -36,6 +37,7 @@ export class RemoteService {
     return this.httpClient.post(this.url + `/login`, JSON.stringify(loginDto),
     {
       observe: 'response', 
+      withCredentials: true,
       headers: new HttpHeaders({
       'Content-Type': 'application/json'
     })});

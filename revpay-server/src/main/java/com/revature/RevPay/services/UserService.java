@@ -34,7 +34,25 @@ public class UserService {
         if (out.isPresent()) {
             return out.get();
         }
-        throw new UserNotFoundException("No user with username [" + username + "] found!");
+        throw new UserNotFoundException("No user found!");
+    }
+
+    public User findByIdentifier(String identifier) throws UserNotFoundException {
+        Optional<User> usernameLookup = userRepository.findByUsername(identifier);
+        Optional<User> emailLookup = userRepository.findByEmail(identifier);
+        Optional<User> phoneLookup = userRepository.findByPhoneNumber(identifier);
+        User out = null;
+        if (usernameLookup.isPresent()) {
+            out = usernameLookup.get();
+        } else if (emailLookup.isPresent()) {
+            out = emailLookup.get();
+        } else if (phoneLookup.isPresent()) {
+            out = phoneLookup.get();
+        }
+        if (out == null) {
+            throw new UserNotFoundException("User not found!");
+        }
+        return out;
     }
     
 }
