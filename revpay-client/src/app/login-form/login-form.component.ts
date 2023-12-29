@@ -3,6 +3,7 @@ import { RemoteService, LoginDto } from '../remote.service';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login-form',
@@ -12,11 +13,13 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './login-form.component.css'
 })
 export class LoginFormComponent {
+  router: Router;
   remoteService: RemoteService;
   identifier: string;
   password: string;
 
-  constructor(remoteService: RemoteService) {
+  constructor(router: Router, remoteService: RemoteService) {
+    this.router = router;
     this.remoteService = remoteService;
     this.identifier = "";
     this.password = "";
@@ -32,6 +35,7 @@ export class LoginFormComponent {
       next: (data) => {
         alert("Login successful!")
         console.log(data)
+        this.router.navigate(["/home"]);
       },
       error: (error: HttpErrorResponse) => {
         alert("Couldn't verify login information!")

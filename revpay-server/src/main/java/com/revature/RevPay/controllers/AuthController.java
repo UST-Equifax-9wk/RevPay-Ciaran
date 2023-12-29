@@ -40,10 +40,10 @@ public class AuthController {
         if (authService.login(loginDto)) {
             try {
                 User userLookup = userService.findByIdentifier(loginDto.getIdentifier());
-                Cookie cookie = new Cookie("value", authService.hash(userLookup.getUsername()));
-                cookie.setMaxAge(60 * 60 * 24 * 7); // one week
-                cookie.setPath("/");
-                httpResponse.addCookie(cookie);
+                Cookie authCookie = new Cookie("value", authService.hash(userLookup.getUsername()));
+                authCookie.setMaxAge(60 * 60 * 24 * 7); // one week
+                authCookie.setPath("/");
+                httpResponse.addCookie(authCookie);
                 return userLookup;
             } catch (UserNotFoundException e) {
                 throw new AccessDeniedException("Credentials do not match!");
