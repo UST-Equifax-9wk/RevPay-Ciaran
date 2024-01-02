@@ -19,7 +19,11 @@ Phone: {{phoneNumber}} <br>
 <h3>Transaction History: &emsp;<button (click)="transactionPage()">Send money</button></h3>
 <ul>
     <li *ngFor="let trans of transactions">
-        <p>{{trans.timestamp}} <br>
+        <p [ngStyle]="{'display': 'table', 
+        'padding': '3px',
+        'border': '0px',
+        'margin': '3px',
+        'background-color': trans.prefix == 'Sent' ? '#FF9090' : 'lightgreen'}">{{trans.timestamp}} <br>
         {{trans.prefix}} <b>${{trans.amount | number: '1.2-2'}}</b> {{trans.suffix}}</p>
     </li>
 </ul>
