@@ -7,13 +7,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class FormatCardPipe implements PipeTransform {
 
   transform(value: string): string {
-    // assumes exactly 16 digits for credit card number
-    let out: string = "";
-    for(let i = 0; i < value.length - 4; i += 4) {
-      out += value.substring(i, i + 4) + '-';
-    }
-    out += value.substring(12);
-    return out;
+    // apparently not all credit cards are 16 digits so instead we will just censor most of the number
+    return 'x' + value.substring(value.length - 4);
   }
 
 }
