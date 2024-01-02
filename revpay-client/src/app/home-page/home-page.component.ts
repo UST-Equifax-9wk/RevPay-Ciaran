@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { CookieService } from '../cookie.service';
 
 @Component({
   selector: 'app-home-page',
@@ -15,6 +16,7 @@ import { CommonModule } from '@angular/common';
 export class HomePageComponent {
   router: Router;
   remoteService: RemoteService;
+  cookieService: CookieService;
   accountType: string;
   username: string;
   email: string;
@@ -23,9 +25,10 @@ export class HomePageComponent {
   cards: Card[];
   transactions: Transaction[];
   
-  constructor(router: Router, remoteService: RemoteService) {
+  constructor(router: Router, remoteService: RemoteService, cookieService: CookieService) {
     this.router = router;
     this.remoteService = remoteService;
+    this.cookieService = cookieService;
     this.accountType = "";
     this.username = "";
     this.email = "";
@@ -33,8 +36,9 @@ export class HomePageComponent {
     this.balance = 0;
     this.cards = [];
     this.transactions = [];
-    let cookies = document.cookie;
-    let currentUser = this.getCookieValue("username", cookies);
+    // console.log(document.cookie);
+    let currentUser = this.cookieService.getCookieValue("currentUser");
+    // console.log(currentUser);
     this.remoteService.getUserInfo(currentUser)
       .subscribe({
         next: (data) => {
@@ -86,16 +90,6 @@ export class HomePageComponent {
           console.log(error.error)
         }
       })
-  }
-
-  getCookieValue(key: string, cookie_list: string): string {
-    const cookies = cookie_list.split(`; `).map(pair => pair.split('='));
-    for (let i = 0; i < cookies.length; i++) {
-      if (cookies[i][0] === key) {
-        return cookies[i][1];
-      }
-    }
-    return "";
   }
 
   addCardPage(): void {
