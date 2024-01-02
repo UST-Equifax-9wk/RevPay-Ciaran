@@ -7,12 +7,12 @@
 <input type="radio" id="debit" [(ngModel)]="cardType" value="debit">
 <label> Debit</label> <br> <br>
 <label>Card Number: </label> <br>
-<input type="text" id="cardNumber" [(ngModel)]="cardNumber">
+<input type="text" id="cardNumber" [(ngModel)]="cardNumber" maxlength="16">
 <br>
 <label>Expiration Date: </label> <br>
-<input type="text" id="expireDate" [(ngModel)]="expireDate">
+<input type="text" id="expireDate" [(ngModel)]="expireDate" maxlength="5">
 <br>
 <label>Security Code: </label> <br>
-<input type="text" id="securityCode" [(ngModel)]="securityCode">
+<input type="text" id="securityCode" [(ngModel)]="securityCode" maxlength="3">
 <br>
 <button (click)="submit()" *ngIf="cardType != '' && cardNumber != '' && expireDate != '' && securityCode != ''">Submit</button>

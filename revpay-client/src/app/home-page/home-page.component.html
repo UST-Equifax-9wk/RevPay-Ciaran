@@ -10,7 +10,7 @@ Phone: {{phoneNumber}} <br>
 <ul>
     <li *ngFor="let card of cards">
         <p>Card Type: {{card.cardType | titlecase}} <br>
-        Number: {{card.cardNumber}} <br>
+        Number: {{card.cardNumber | formatCard }} <br>
         Expiration Date: {{card.expireDate}}</p>
 
     </li>

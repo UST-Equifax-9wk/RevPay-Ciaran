@@ -5,11 +5,12 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { CookieService } from '../cookie.service';
+import { FormatCardPipe } from '../format-card.pipe';
 
 @Component({
   selector: 'app-home-page',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, FormatCardPipe],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.css'
 })
