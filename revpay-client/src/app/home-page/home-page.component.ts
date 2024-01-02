@@ -87,7 +87,8 @@ export class HomePageComponent {
           this.transactions.sort((a, b) => a.timestamp < b.timestamp ? 1 : (a.timestamp > b.timestamp ? -1 : 0));
         },
         error: (error: HttpErrorResponse) => {
-          console.log(error.error)
+          console.log(error.error);
+          this.router.navigate(["/"]);
         }
       })
   }
