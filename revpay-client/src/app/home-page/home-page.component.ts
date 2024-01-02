@@ -98,7 +98,7 @@ export class HomePageComponent {
   }
 
   transactionPage() : void {
-    console.log("should redirect to transaction page");
+    this.router.navigate(['/transactions'])
   }
 
   logout(): void {

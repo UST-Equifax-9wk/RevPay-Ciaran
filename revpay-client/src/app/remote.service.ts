@@ -90,6 +90,17 @@ export class RemoteService {
       'Content-Type': 'application/json'
     })});
   }
+
+  makeTransaction(newTrans: TransDto) : Observable<HttpResponse<Object>> {
+    return this.httpClient.post(this.url + `/transaction/${this.cookieService.getCookieValue("currentUser")}`, 
+    JSON.stringify(newTrans), {
+      observe: 'response', 
+      withCredentials: true,
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })});
+  }
+
 }
 
 export interface User {
@@ -111,4 +122,9 @@ export interface Card {
   cardNumber: string;
   expireDate: string;
   securityCode: string;
+}
+
+export interface TransDto {
+  identifier: string;
+  balance: number;
 }

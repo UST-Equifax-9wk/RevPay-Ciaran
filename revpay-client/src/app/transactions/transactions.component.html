@@ -1,1 +1,10 @@
-<p>transactions works!</p>
+<h1>Make a transaction:</h1>
+
+<label>Username or Email: </label> <br>
+<input type="text" id="identifier" [(ngModel)]="identifier">
+<br>
+<label>Amount: </label> <br>
+<input type="text" id="amount" [(ngModel)]="amount"> <span *ngIf="!isValid()">&emsp;Invalid amount!</span>
+<br>
+<button (click)="submitSend()" *ngIf="identifier != '' && isValid()">Send</button>
+<button (click)="submitRequest()" *ngIf="identifier != '' && isValid()">Request</button>
