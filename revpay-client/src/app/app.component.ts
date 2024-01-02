@@ -21,10 +21,4 @@ import { LandingComponent } from './landing/landing.component';
 })
 export class AppComponent {
   title = 'RevPay';
-  router: Router;
-
-  constructor(router: Router) {
-    this.router = router;
-    this.router.navigate(["/landing"]);
-  }
 }

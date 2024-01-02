@@ -98,7 +98,7 @@ export class HomePageComponent {
 
   logout(): void {
     this.cookieService.eraseCookies();
-    this.router.navigate(["/login"]);
+    this.router.navigate(["/"]);
   }
 }
 
