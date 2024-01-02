@@ -18,4 +18,12 @@ export class CookieService {
     }
     return "";
   }
+
+  eraseCookies(): void {
+    const keys = ["currentUser", "value"];
+    keys.forEach((key) => {
+      document.cookie = key + "=''; expires=" + new Date(Date.now()).toUTCString();
+    })
+  }
+
 }

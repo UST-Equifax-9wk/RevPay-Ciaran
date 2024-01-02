@@ -4,6 +4,8 @@
 Email: {{email}} <br>
 Phone: {{phoneNumber}} <br>
 
+<button (click)="logout()">Log out</button>
+
 <h3>Cards: &emsp;<button (click)="addCardPage()">Add card</button></h3>
 <ul>
     <li *ngFor="let card of cards">

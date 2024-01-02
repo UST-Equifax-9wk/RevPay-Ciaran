@@ -95,6 +95,11 @@ export class HomePageComponent {
   addCardPage(): void {
     console.log("Should redirect to add new cards page");
   }
+
+  logout(): void {
+    this.cookieService.eraseCookies();
+    this.router.navigate(["/login"]);
+  }
 }
 
 export interface Transaction {
