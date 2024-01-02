@@ -1,6 +1,7 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CookieService } from './cookie.service';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ import { Observable } from 'rxjs';
 export class RemoteService {
 
   httpClient: HttpClient;
+  cookieService: CookieService;
   url: string;
   httpOptions = {
     observe: 'response', 
@@ -16,9 +18,9 @@ export class RemoteService {
     'Content-Type': 'application/json'
   })};
 
-  constructor(httpClient: HttpClient) {
+  constructor(httpClient: HttpClient, cookieService: CookieService) {
     this.httpClient = httpClient;
-
+    this.cookieService = cookieService;
     // will maybe need to change this in the future
     this.url = "http://localhost:8080";
   }
@@ -79,6 +81,15 @@ export class RemoteService {
       'Content-Type': 'application/json'
     })});
   }
+
+  registerCard(newCard: Card) : Observable<HttpResponse<Object>> {
+    return this.httpClient.post(this.url + `/user/${this.cookieService.getCookieValue("currentUser")}/card`, JSON.stringify(newCard), {
+      observe: 'response', 
+      withCredentials: true,
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json'
+    })});
+  }
 }
 
 export interface User {
@@ -93,4 +104,11 @@ export interface User {
 export interface LoginDto {
   identifier: string;
   password: string;
+}
+
+export interface Card {
+  cardType: string;
+  cardNumber: string;
+  expireDate: string;
+  securityCode: string;
 }

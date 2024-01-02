@@ -1,0 +1,18 @@
+<h1>Add a new card:</h1>
+
+<label>Card Type: </label> <br>
+<input type="radio" id="credit" [(ngModel)]="cardType" value="credit">
+<label> Credit</label>
+<br>
+<input type="radio" id="debit" [(ngModel)]="cardType" value="debit">
+<label> Debit</label> <br> <br>
+<label>Card Number: </label> <br>
+<input type="text" id="cardNumber" [(ngModel)]="cardNumber">
+<br>
+<label>Expiration Date: </label> <br>
+<input type="text" id="expireDate" [(ngModel)]="expireDate">
+<br>
+<label>Security Code: </label> <br>
+<input type="text" id="securityCode" [(ngModel)]="securityCode">
+<br>
+<button (click)="submit()" *ngIf="cardType != '' && cardNumber != '' && expireDate != '' && securityCode != ''">Submit</button>

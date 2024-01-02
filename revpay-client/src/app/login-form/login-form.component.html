@@ -1,9 +1,9 @@
 <h1>Log-in for RevPay!</h1>
 
-<label>Username: </label>
+<label>Username or Email: </label> <br>
 <input type="text" id="identifier" [(ngModel)]="identifier">
 <br>
-<label>Password: </label>
+<label>Password: </label> <br>
 <input type="password" id="password" [(ngModel)]="password">
 <br>
 <button (click)="login()" *ngIf="identifier != '' && password != ''">Log in!</button>

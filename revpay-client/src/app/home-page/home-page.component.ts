@@ -94,7 +94,11 @@ export class HomePageComponent {
   }
 
   addCardPage(): void {
-    console.log("Should redirect to add new cards page");
+    this.router.navigate(['/cards']);
+  }
+
+  transactionPage() : void {
+    console.log("should redirect to transaction page");
   }
 
   logout(): void {
