@@ -31,6 +31,8 @@ public class AuthService {
         if (usernameLookup.isPresent() || emailLookup.isPresent() || phoneLookup.isPresent()) {
             throw new UserAlreadyExistsException("User with credentials already exists!");
         }
+        user.setPassword(this.hash(user.getPassword()));
+        System.out.println(user.getPassword());
         return userRepository.save(user);
     }
 
@@ -47,7 +49,7 @@ public class AuthService {
         } else if (phoneLookup.isPresent()) {
             associatedPass = phoneLookup.get().getPassword();
         }
-        return associatedPass.equals(loginDto.getPassword());
+        return this.checkHash(loginDto.getPassword(), associatedPass);
     }
 
     // cross-references the stored cookie with the hash of the username of the user whose page is
