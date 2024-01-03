@@ -45,7 +45,7 @@ export class CardsComponent {
           this.router.navigate(['/home']);
         },
         error: (error: HttpErrorResponse) => {
-          alert("Couldn't Register");
+          alert(error.error);
           console.log(error.error);
         }
       })

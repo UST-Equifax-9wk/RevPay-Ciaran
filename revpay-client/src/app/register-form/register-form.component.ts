@@ -49,8 +49,8 @@ export class RegisterFormComponent {
 
         },
         error: (error: HttpErrorResponse) => {
-          alert("Couldn't Register")
-          console.log(error.error)
+          alert(error.error);
+          console.log(error.error);
         }
       })
   }

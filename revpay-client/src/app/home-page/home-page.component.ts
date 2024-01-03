@@ -55,7 +55,7 @@ export class HomePageComponent {
           });
         },
         error: (error: HttpErrorResponse) => {
-          alert("Couldn't verify login information!")
+          alert(error.error)
           console.log(error.error)
         }
     });
@@ -74,6 +74,7 @@ export class HomePageComponent {
           this.transactions.sort((a, b) => a.timestamp < b.timestamp ? 1 : (a.timestamp > b.timestamp ? -1 : 0));
         },
         error: (error: HttpErrorResponse) => {
+          alert(error.error);
           console.log(error.error);
           this.router.navigate(["/"]);
         }

@@ -39,7 +39,7 @@ export class LoginFormComponent {
         this.router.navigate(["/home"]);
       },
       error: (error: HttpErrorResponse) => {
-        alert("Couldn't verify login information!")
+        alert(error.error)
         console.log(error.error)
       }
     })

@@ -55,7 +55,7 @@ export class TransactionsComponent {
           this.router.navigate(['/home']);
         },
         error: (error: HttpErrorResponse) => {
-          alert("Couldn't send money");
+          alert(error.error);
           console.log(error.error);
         }
       })
