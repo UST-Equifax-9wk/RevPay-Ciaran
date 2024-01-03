@@ -3,6 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { RemoteService, User } from '../remote.service';
 import { CommonModule } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register-form',
@@ -12,6 +13,7 @@ import { HttpErrorResponse } from '@angular/common/http';
   styleUrl: './register-form.component.css'
 })
 export class RegisterFormComponent {
+  router: Router;
   remoteService: RemoteService;
   account_type: string;
   username: string;
@@ -19,7 +21,8 @@ export class RegisterFormComponent {
   email: string;
   phone: string;
 
-  constructor(remoteService: RemoteService) {
+  constructor(router: Router, remoteService: RemoteService) {
+    this.router = router;
     this.remoteService = remoteService;
     this.account_type = "";
     this.username = "";
@@ -42,6 +45,8 @@ export class RegisterFormComponent {
         next: (data) => {
           alert("User registered!")
           console.log(data)
+          this.router.navigate(["/login"])
+
         },
         error: (error: HttpErrorResponse) => {
           alert("Couldn't Register")

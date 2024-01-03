@@ -32,7 +32,7 @@ public class AuthService {
             throw new UserAlreadyExistsException("User with credentials already exists!");
         }
         user.setPassword(this.hash(user.getPassword()));
-        System.out.println(user.getPassword());
+        // System.out.println(user.getPassword());
         return userRepository.save(user);
     }
 
