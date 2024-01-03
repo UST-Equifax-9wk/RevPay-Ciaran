@@ -53,20 +53,6 @@ export class HomePageComponent {
           userInfo.cards.forEach((card: object) => {
             this.cards.push(JSON.parse(JSON.stringify(card)))
           });
-          /*
-          userInfo.payments.forEach((trans: object) => {
-            let out = JSON.parse(JSON.stringify(trans));
-            out.prefix = "Sent";
-            out.suffix = "to " + out.username;
-            this.transactions.push(out);
-          });
-          userInfo.receipts.forEach((trans: object) => {
-            let out = JSON.parse(JSON.stringify(trans));
-            out.prefix = 'Received';
-            out.suffix = 'from ' + out.username;
-            this.transactions.push(out);
-          });
-          this.transactions.sort((a, b) => a.timestamp < b.timestamp ? 1 : (a.timestamp > b.timestamp ? -1 : 0)); */
         },
         error: (error: HttpErrorResponse) => {
           alert("Couldn't verify login information!")

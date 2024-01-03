@@ -5,12 +5,13 @@ import { HomePageComponent } from './home-page/home-page.component';
 import { LandingComponent } from './landing/landing.component';
 import { CardsComponent } from './cards/cards.component';
 import { TransactionsComponent } from './transactions/transactions.component';
+import { authGuard } from './auth.guard';
 
 export const routes: Routes = [
     { path: "", component: LandingComponent },
     { path: "register", component: RegisterFormComponent },
     { path: "login", component: LoginFormComponent },
     { path: "home", component: HomePageComponent },
-    { path: "cards", component: CardsComponent },
-    { path: "transactions", component: TransactionsComponent }
+    { path: "cards", component: CardsComponent, canActivate: [authGuard] },
+    { path: "transactions", component: TransactionsComponent, canActivate: [authGuard] }
 ];

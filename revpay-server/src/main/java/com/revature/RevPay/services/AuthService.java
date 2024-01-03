@@ -49,7 +49,11 @@ public class AuthService {
         } else if (phoneLookup.isPresent()) {
             associatedPass = phoneLookup.get().getPassword();
         }
-        return this.checkHash(loginDto.getPassword(), associatedPass);
+        // System.out.println(loginDto.getPassword());
+        // System.out.println(associatedPass);
+        boolean isValid = this.checkHash(loginDto.getPassword(), associatedPass);
+        // System.out.println(isValid);
+        return isValid;
     }
 
     // cross-references the stored cookie with the hash of the username of the user whose page is
@@ -60,8 +64,10 @@ public class AuthService {
             if (usernameLookup.isPresent()) {
                 return usernameLookup.get();
             }
+            System.out.println("AuthService.authenticate: User not found");
             throw new UserNotFoundException("User doesn't exist!");
         }
+        System.out.println("AuthService.authenticate: Cookies don't match");
         throw new AccessDeniedException("Invalid cookie!");
     }
 
