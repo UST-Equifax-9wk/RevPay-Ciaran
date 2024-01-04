@@ -49,11 +49,13 @@ public class AuthService {
         } else if (phoneLookup.isPresent()) {
             associatedPass = phoneLookup.get().getPassword();
         }
+        if (associatedPass.isEmpty()) {
+            throw new UserNotFoundException("User not found!");
+        }
         // System.out.println(loginDto.getPassword());
         // System.out.println(associatedPass);
-        boolean isValid = this.checkHash(loginDto.getPassword(), associatedPass);
+        return this.checkHash(loginDto.getPassword(), associatedPass);
         // System.out.println(isValid);
-        return isValid;
     }
 
     // cross-references the stored cookie with the hash of the username of the user whose page is
